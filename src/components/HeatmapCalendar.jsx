@@ -10,7 +10,7 @@ export default function HeatmapCalendar({ sessions = [] }) {
   // Aggregate minutes per day
   const dayMinutes = {}
   sessions.forEach(s => {
-    const d = new Date(s.started_at)
+    const d = new Date(s.created_at)
     if (d.getMonth() === month && d.getFullYear() === year) {
       const key = d.getDate()
       dayMinutes[key] = (dayMinutes[key] || 0) + (s.duration_minutes || 0)

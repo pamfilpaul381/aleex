@@ -20,7 +20,7 @@ export function useStreak() {
       .from('stretch_sessions')
       .select('*')
       .eq('user_id', user.id)
-      .order('started_at', { ascending: false })
+      .order('created_at', { ascending: false })
 
     if (error) {
       setLoading(false)
@@ -42,7 +42,7 @@ export function useStreak() {
     
     const sessionDates = new Set(
       sessions.map(s => {
-        const d = new Date(s.started_at)
+        const d = new Date(s.created_at)
         d.setHours(0, 0, 0, 0)
         return d.getTime()
       })
@@ -70,7 +70,7 @@ export function useStreak() {
       d.setHours(0, 0, 0, 0)
       const dayMinutes = sessions
         .filter(s => {
-          const sd = new Date(s.started_at)
+          const sd = new Date(s.created_at)
           sd.setHours(0, 0, 0, 0)
           return sd.getTime() === d.getTime()
         })
@@ -95,7 +95,7 @@ export function useStreak() {
       .from('stretch_sessions')
       .insert({
         user_id: user.id,
-        started_at: new Date().toISOString(),
+        created_at: new Date().toISOString(),
         duration_minutes: durationMinutes,
         mood,
         note,
@@ -117,7 +117,7 @@ export function useStreak() {
       .from('stretch_sessions')
       .insert({
         user_id: user.id,
-        started_at: sessionDate.toISOString(),
+        created_at: sessionDate.toISOString(),
         duration_minutes: durationMinutes,
         body_area: bodyArea,
         intensity: intensity,

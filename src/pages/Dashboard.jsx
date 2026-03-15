@@ -24,7 +24,7 @@ function MonthCalendar({ sessions = [], viewMonth, viewYear, onPrevMonth, onNext
 
   const dayMinutes = {}
   sessions.forEach(s => {
-    const d = new Date(s.started_at)
+    const d = new Date(s.created_at)
     if (d.getMonth() === viewMonth && d.getFullYear() === viewYear) {
       const key = d.getDate()
       dayMinutes[key] = (dayMinutes[key] || 0) + (s.duration_minutes || 0)
@@ -250,10 +250,10 @@ export default function Dashboard() {
   const activeDaysThisMonth = new Set(
     sessions
       .filter(s => {
-        const d = new Date(s.started_at)
+        const d = new Date(s.created_at)
         return d.getMonth() === viewMonth && d.getFullYear() === viewYear
       })
-      .map(s => new Date(s.started_at).getDate())
+      .map(s => new Date(s.created_at).getDate())
   ).size
 
   const daysInMonth = new Date(viewYear, viewMonth + 1, 0).getDate()

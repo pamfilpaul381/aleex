@@ -19,7 +19,7 @@ export default function History() {
   const calcLongestStreak = () => {
     if (sessions.length === 0) return 0
     const dates = [...new Set(sessions.map(s => {
-      const d = new Date(s.started_at); d.setHours(0,0,0,0); return d.getTime()
+      const d = new Date(s.created_at); d.setHours(0,0,0,0); return d.getTime()
     }))].sort()
     let longest = 1, current = 1
     for (let i = 1; i < dates.length; i++) {
