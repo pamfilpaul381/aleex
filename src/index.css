@@ -1,0 +1,119 @@
+@import "tailwindcss";
+
+@theme {
+  --color-velvet: #8B2252;
+  --color-velvet-light: #C2185B;
+  --color-purple-deep: #4A1A6B;
+  --color-purple-soft: #7B3FA0;
+  --color-lavender: #D4B5E6;
+  --color-cream: #FFF5F7;
+  --color-dark-bg: #1A0A1E;
+  --color-success: #4CAF50;
+  --color-gold: #FFD700;
+
+  --font-display: "Playfair Display", serif;
+  --font-body: "Quicksand", sans-serif;
+  --font-mono: "DM Mono", monospace;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  font-family: "Quicksand", sans-serif;
+}
+
+body {
+  background: linear-gradient(135deg, #1A0A1E 0%, #2D1338 30%, #1A0A1E 50%, #3B1A4A 75%, #1A0A1E 100%);
+  background-attachment: fixed;
+  min-height: 100dvh;
+  color: #FFF5F7;
+}
+
+#root {
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Glassmorphism utility */
+.glass {
+  background: rgba(255, 255, 255, 0.07);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 20px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  transform: translateZ(0);
+}
+
+@supports not (backdrop-filter: blur(10px)) {
+  .glass {
+    background: rgba(30, 15, 40, 0.92);
+  }
+}
+
+/* Floating orb animations */
+@keyframes float-orb-1 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(30px, -50px) scale(1.1); }
+  66% { transform: translate(-20px, 20px) scale(0.9); }
+}
+
+@keyframes float-orb-2 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(-40px, 30px) scale(1.05); }
+  66% { transform: translate(25px, -40px) scale(0.95); }
+}
+
+@keyframes float-orb-3 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(20px, 40px) scale(1.08); }
+  66% { transform: translate(-30px, -20px) scale(0.92); }
+}
+
+/* Shimmer loading animation */
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.skeleton {
+  background: linear-gradient(90deg, rgba(255,255,255,0.05) 25%, rgba(255,255,255,0.1) 50%, rgba(255,255,255,0.05) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 12px;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 4px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 2px;
+}
+
+/* Button base */
+button {
+  touch-action: manipulation;
+  font-family: "Quicksand", sans-serif;
+}
+
+/* Focus visible for accessibility */
+:focus-visible {
+  outline: 2px solid #D4B5E6;
+  outline-offset: 2px;
+}
+
+/* Safe area padding for notched phones */
+.safe-bottom {
+  padding-bottom: env(safe-area-inset-bottom);
+}
