@@ -51,7 +51,6 @@ export function useStreak() {
     let currentStreak = 0
     const checkDate = new Date(today)
     
-    // Check if today has a session, if not start from yesterday
     if (!sessionDates.has(checkDate.getTime())) {
       checkDate.setDate(checkDate.getDate() - 1)
     }
@@ -90,7 +89,7 @@ export function useStreak() {
     fetchSessions()
   }, [fetchSessions])
 
-  const saveSession = async ({ durationMinutes, mood, note }) => {
+  const saveSession = async ({ durationMinutes, mood, note, bodyArea, intensity }) => {
     if (!user || !supabase) return
     const { data, error } = await supabase
       .from('stretch_sessions')
@@ -100,6 +99,28 @@ export function useStreak() {
         duration_minutes: durationMinutes,
         mood,
         note,
+        body_area: bodyArea || null,
+        intensity: intensity || null,
+      })
+      .select()
+      .single()
+    if (error) throw error
+    await fetchSessions()
+    return data
+  }
+
+  const logPastSession = async ({ durationMinutes, bodyArea, intensity, date }) => {
+    if (!user || !supabase) return
+    const sessionDate = date ? new Date(date) : new Date()
+    sessionDate.setHours(12, 0, 0, 0)
+    const { data, error } = await supabase
+      .from('stretch_sessions')
+      .insert({
+        user_id: user.id,
+        started_at: sessionDate.toISOString(),
+        duration_minutes: durationMinutes,
+        body_area: bodyArea,
+        intensity: intensity,
       })
       .select()
       .single()
@@ -111,5 +132,5 @@ export function useStreak() {
   const todayMinutes = last7Days.find(d => d.isToday)?.minutes || 0
   const stretchedToday = todayMinutes > 0
 
-  return { sessions, streak, totalMinutes, todayMinutes, stretchedToday, last7Days, loading, saveSession, refetch: fetchSessions }
+  return { sessions, streak, totalMinutes, todayMinutes, stretchedToday, last7Days, loading, saveSession, logPastSession, refetch: fetchSessions }
 }
